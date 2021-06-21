@@ -1,0 +1,70 @@
+{
+  "name": "@turf/nearest-neighbor-analysis",
+  "version": "6.3.0",
+  "description": "turf nearest-neighbor-analysis module",
+  "author": "Turf Authors",
+  "contributors": [
+    "Moacir P. de Sá Pereira <@muziejus>"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Turfjs/turf/issues"
+  },
+  "homepage": "https://github.com/Turfjs/turf",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Turfjs/turf.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "turf",
+    "nearest-neighbor"
+  ],
+  "main": "dist/js/index.js",
+  "module": "dist/es/index.js",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": "./dist/es/index.js",
+      "require": "./dist/js/index.js"
+    }
+  },
+  "types": "dist/js/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "bench": "ts-node bench.js",
+    "build": "npm-run-all build:*",
+    "build:es": "tsc --outDir dist/es --module esnext --declaration false && echo '{\"type\":\"module\"}' > dist/es/package.json",
+    "build:js": "tsc",
+    "docs": "node ../../scripts/generate-readmes",
+    "test": "npm-run-all test:*",
+    "test:tape": "ts-node -r esm test.js"
+  },
+  "devDependencies": {
+    "@turf/truncate": "^6.3.0",
+    "@types/tape": "*",
+    "benchmark": "*",
+    "load-json-file": "*",
+    "npm-run-all": "*",
+    "tape": "*",
+    "ts-node": "*",
+    "tslint": "*",
+    "typescript": "*",
+    "write-json-file": "*"
+  },
+  "dependencies": {
+    "@turf/area": "^6.3.0",
+    "@turf/bbox": "^6.3.0",
+    "@turf/bbox-polygon": "^6.3.0",
+    "@turf/centroid": "^6.3.0",
+    "@turf/distance": "^6.3.0",
+    "@turf/helpers": "^6.3.0",
+    "@turf/meta": "^6.3.0",
+    "@turf/nearest-point": "^6.3.0"
+  }
+}
