@@ -19,8 +19,9 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', 'JumlahPasienController@index')->name('welcome');
-Route::get('/admin', 'MasterKabupatenController@index')->name('admin')->middleware('auth');
+// Route::get('/admin', 'MasterKabupatenController@index')->name('admin')->middleware('auth');
 
 Auth::routes();
+Route::resource('dataPasien', 'DataPasienController')->middleware('auth');
 
 Route::get('/home', 'HomeController@index')->name('home');

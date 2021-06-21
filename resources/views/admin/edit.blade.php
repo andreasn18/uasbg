@@ -9,122 +9,116 @@
     // Create connection
     $conn = new mysqli($servername, $username, $password, $dbname);
     ?>
-    @if (session('status'))
-        <div class="alert alert-success" role="alert">
-            {{ session('status') }}
-        </div>
-    @endif
-    @if (session('error'))
-        <div class="alert alert-danger" role="alert">
-            {{ session('error') }}
-        </div>
-    @endif
     BG - Leaflet
     <div class="row">
         <div class="col-md-12">
             <div id="rumahpeta" style="height: 600px"></div>
         </div>
         <div class="col-md-12">
-            <label for="staticEmail" class="col-sm-12 col-form-label">Tambahkan Data Pasien</label>
+            <label for="staticEmail" class="col-sm-12 col-form-label">Edit Data Pasien</label>
             {{-- <div class="col-sm-10">
 				<input required="required" type="text" class="form-control " name="ket" id="ket">
 			</div> --}}
         </div>
-        <div class="col-md-6">
-            <form class="form" method="post" action="#" enctype="multipart/form-data" id="formpasien">
+        <div class="col-md-12">
+            <form class="form" method="post" action="{{ route('dataPasien.update', $pasien) }}"
+                enctype="multipart/form-data" id="formpasien">
+                <div class="col-md-6 sub-entry">
+                    <div class="form-group">
+                        @csrf
+                        @method("PUT")
+                        <label for="staticEmail" class="col-sm-2 col-form-label">Nama</label>
+                        <div class="col-sm-10">
+                            <input required="required" type="text" class="form-control " name="nama" id="nama"
+                                value="{{ $pasien->nama }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="staticEmail" class="col-sm-4 col-form-label">No KTP</label>
+                        <div class="col-sm-10">
+                            <input required="required" type="number" class="form-control " name="noKtp" id="noKtp"
+                                value="{{ $pasien->no_ktp }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="staticEmail" class="col-sm-2 col-form-label">Alamat</label>
+                        <div class="col-sm-10">
+                            <input required="required" type="text" class="form-control " name="alamat" id="alamat"
+                                value="{{ $pasien->alamat }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="staticEmail" class="col-sm-8 col-form-label">Lokasi Karantina</label>
+                        <div class="col-sm-10">
+                            <label class="col-sm-4 col-form-label">Provinsi</label>
+                            <select class="form-control" name="provinsi" id="provinsi" onchange="KabOpt()">
+                                @foreach ($provinsi as $data)
+                                    <option value="{{ $data->kode_prop }}" @if ($data->kode_prop == $pasien->lokasi_propinsi) selected @endif>{{ $data->nama_prop }}</option>
+                                @endforeach
+                            </select>
+                            <label class="col-sm-4 col-form-label">Kabupaten</label>
+                            <select class="form-control" name="kabupaten" id="kabupaten">
+                                @foreach ($kabupaten as $data)
+                                    <option value="{{ $data->kode_kab }}" @if ($data->kode_kab == $pasien->lokasi_kabkot) selected @endif>{{ $data->nama_kab }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label for="staticEmail" class="col-sm-2 col-form-label">Nama</label>
-                    <div class="col-sm-10">
-                        <input required="required" type="text" class="form-control " name="nama" id="nama">
+                    <div class="form-group">
+                        <label for="staticEmail" class="col-sm-12 col-form-label">Geom(Gunakan marker di map untuk menandai
+                            lokasi rumah)</label>
+                        <div class="col-sm-10">
+                            <textarea required="required" class="form-control " name="geom" id="geom"
+                                readonly>{{ $pasien->geom }}</textarea>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="staticEmail" class="col-sm-4 col-form-label">No KTP</label>
-                    <div class="col-sm-10">
-                        <input required="required" type="number" class="form-control " name="noKtp" id="noKtp">
+                    <div class="form-group">
+                        <label for="staticEmail" class="col-sm-2 col-form-label"> </label>
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-success" id="ubah" name="ubah">
+                                Edit
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="staticEmail" class="col-sm-2 col-form-label">Alamat</label>
-                    <div class="col-sm-10">
-                        <input required="required" type="text" class="form-control " name="alamat" id="alamat">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="staticEmail" class="col-sm-8 col-form-label">Lokasi Karantina</label>
-                    <div class="col-sm-10">
-                        <label class="col-sm-4 col-form-label">Provinsi</label>
-                        <select class="form-control" name="provinsi" id="provinsi" onchange="KabOpt()">
-                            @foreach ($provinsi as $data)
-                                <option value="{{ $data->kode_prop }}">{{ $data->nama_prop }}</option>
-                            @endforeach
-                        </select>
-                        <label class="col-sm-4 col-form-label">Kabupaten</label>
-                        <select class="form-control" name="kabupaten" id="kabupaten">
-                            @foreach ($kabupaten as $data)
-                                <option value="{{ $data->kode_kab }}">{{ $data->nama_kab }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
 
-                <div class="form-group">
-                    <label for="staticEmail" class="col-sm-12 col-form-label">Geom(Gunakan marker di map untuk menandai
-                        lokasi rumah)</label>
-                    <div class="col-sm-10">
-                        <textarea required="required" class="form-control " name="geom" id="geom" readonly></textarea>
-                    </div>
+
                 </div>
-                <div class="form-group">
-                    <label for="staticEmail" class="col-sm-2 col-form-label"> </label>
-                    <div class="col-sm-10">
-                        <button type="button" onclick="simpan_geom()" class="btn btn-success" id="simpan" name="simpan"
-                            style="visibility: visible;">
-                            Simpan
-                        </button>
-                        <button type="submit" onclick="edit_geom()" class="btn btn-success" style="visibility: hidden;"
-                            id="ubah" name="ubah">
-                            Edit
-                        </button>
-                        <button type="submit" onclick="delete_geom()" class="btn btn-success" style="visibility: hidden;"
-                            id="hapus" name="hapus">
-                            Delete
-                        </button>
+                <div class="col-md-6 sub-entry">
+                    <div class="form-group">
+                        <label for="staticEmail" class="col-sm-8 col-form-label">Keluhan sakit</label>
+                        <div class="col-sm-10">
+                            <input required="required" type="text" class="form-control " name="keluhan" id="keluhan"
+                                value="{{ $pasien->keluhan }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="staticEmail" class="col-sm-8 col-form-label">Riwayat Perjalanan</label>
+                        <div class="col-sm-10">
+                            <input required="required" type="text" class="form-control " name="riwayat" id="riwayat"
+                                value="{{ $pasien->riwayat_perjalanan }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="staticEmail" class="col-sm-2 col-form-label">Jenis</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="jenis" id="jenis">
+                                <option value="penderita" @if ($pasien->jenis == 'Penderita') selected @endif>Penderita</option>
+                                <option value="suspect" @if ($pasien->jenis == 'Suspect') selected @endif>Suspect</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="staticEmail" class="col-sm-8 col-form-label">Foto Pasien</label>
+                        <div class="col-sm-10">
+                            <input type="file" name="foto" id="foto" accept="image/jpg, image/jpeg, image/png"
+                                onchange="LoadFile(event)">
+                        </div>
+                        <input type="text" name="fotoUrl" id="fotoUrl" hidden>
+                        <input type="text" name="extUrl" id="extUrl" hidden>
                     </div>
                 </div>
             </form>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="staticEmail" class="col-sm-8 col-form-label">Keluhan sakit</label>
-                <div class="col-sm-10">
-                    <input required="required" type="text" class="form-control " name="keluhan" id="keluhan">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="staticEmail" class="col-sm-8 col-form-label">Riwayat Perjalanan</label>
-                <div class="col-sm-10">
-                    <input required="required" type="text" class="form-control " name="riwayat" id="riwayat">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="staticEmail" class="col-sm-2 col-form-label">Jenis</label>
-                <div class="col-sm-10">
-                    <select class="form-control" name="jenis" id="jenis">
-                        <option value="penderita">Penderita</option>
-                        <option value="suspect">Suspect</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="staticEmail" class="col-sm-8 col-form-label">Foto Pasien</label>
-                <div class="col-sm-10">
-                    <input required="required" type="file" name="foto" id="foto" accept="image/jpg, image/jpeg, image/png"
-                        onchange="LoadFile(event)">
-                </div>
-                <p name="fotoUrl" id="fotoUrl" hidden></p>
-            </div>
         </div>
     </div>
     {{-- <div id="rumahpeta" style="background-color: red; height: 550px;">
@@ -254,7 +248,7 @@
 
         function KabOpt() {
             var prov = $('#provinsi').val();
-            $.post('KabOpt.php', {
+            $.post("{{ asset('KabOpt.php') }}", {
                     prov: prov
                 },
                 function(data) {
@@ -278,7 +272,8 @@
             const reader = new FileReader();
             reader.addEventListener("load", () => {
                 // document.getElementById('fotoUrl').innerText = URL.createObjectURL(event.target.files[0]);
-                document.getElementById('fotoUrl').innerText = reader.result;
+                document.getElementById('fotoUrl').value = reader.result;
+                document.getElementById('extUrl').value = $('#foto').val().split('.')[1];
             });
             reader.readAsDataURL(event.target.files[0]);
         }
@@ -318,21 +313,6 @@
                         alert(data);
                     }
                 });
-        }
-
-        function EditVisible(id) {
-            var ubah = document.getElementById('ubah');
-            var hapus = document.getElementById('hapus');
-            var simpan = document.getElementById('simpan');
-            var form = document.getElementById('formpasien');
-            ubah.style.visibility = "visible";
-            ubah.style.display = "block";
-            hapus.style.visibility = "hidden";
-            simpan.style.display = "none";
-            var action = "{{ route('dataPasien.edit', ':id') }}";
-            action = action.replace(':id', id);
-            document.location.href = action;
-            form.action = action;
         }
 
         function DeleteVisible() {
@@ -383,11 +363,7 @@
             pop.setLatLng(e.latlng);
             pop.setContent(
                 "Nama = <?php echo $r['nama']; ?> <br> Alamat = <?php echo $r['alamat']; ?> <br>Jenis = <?php echo $r['jenis']; ?> <br>Keluhan = <?php echo $r['keluhan']; ?> <br>Riwayat = <?php echo $r['riwayat_perjalanan']; ?><br>" +
-                "<a href = '#' onclick='EditVisible(<?php echo $r['id']; ?>)' data-id='<?php echo $r['id']; ?>'>Edit</a>" +
-                "&nbsp <form method='POST' action='{{ route('dataPasien.destroy', $r['id']) }}'>" +
-                "<input type='hidden' name='_token' value='{{ csrf_token() }}'> " +
-                "<input type='hidden' name='_method' value='delete'>" +
-                " <input type='submit' value='Delete' class='btn btn-success btn-sm delete' onclick='return confirm('Apakah anda yakin mau delete?')'> </form>"
+                " <a href = '#' onclick='DeleteVisible()'>Delete</a>"
             );
             map.openPopup(pop);
         });

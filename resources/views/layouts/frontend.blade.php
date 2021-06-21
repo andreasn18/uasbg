@@ -8,9 +8,9 @@
     <title>@yield('title')</title>
 
     <script src="{{ asset('js/app.js') }}" defer></script>
-    <link rel="stylesheet" href="assets_leaflet/leaflet.css" type="text/css">
-    <script src="assets_leaflet/leaflet.js" type="text/javascript"></script>
-    <script src="plugins/leaflet.ajax.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="{{ asset('assets_leaflet/leaflet.css') }}" type="text/css">
+    <script src="{{ asset('assets_leaflet/leaflet.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('plugins/leaflet.ajax.js') }}" type="text/javascript"></script>
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
@@ -24,15 +24,21 @@
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <link rel="stylesheet" href="plugins/markercluster/MarkerCluster.css" />
-    <link rel="stylesheet" href="plugins/markercluster/MarkerCluster.Default.css" />
-    <script src="plugins/markercluster/leaflet.markercluster-src.js"></script>
-    <script type="text/javascript" src="plugins/wicket/wicket.js"></script>
-    <script type="text/javascript" src="plugins/wicket/wicket-leaflet.js"></script>
+    <link rel="stylesheet" href="{{ asset('plugins/markercluster/MarkerCluster.css') }}" />
+    <link rel="stylesheet" href="{{ asset('plugins/markercluster/MarkerCluster.Default.css') }}" />
+    <script src="{{ asset('plugins/markercluster/leaflet.markercluster-src.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('plugins/wicket/wicket.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('plugins/wicket/wicket-leaflet.js') }}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js">
     </script>
     <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
+    <style>
+        .sub-entry{
+            width: 50%;
+            float: left;
+        }
+    </style>
 
 </head>
 
