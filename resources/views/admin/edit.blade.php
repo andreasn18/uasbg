@@ -363,7 +363,10 @@
             pop.setLatLng(e.latlng);
             pop.setContent(
                 "Nama = <?php echo $r['nama']; ?> <br> Alamat = <?php echo $r['alamat']; ?> <br>Jenis = <?php echo $r['jenis']; ?> <br>Keluhan = <?php echo $r['keluhan']; ?> <br>Riwayat = <?php echo $r['riwayat_perjalanan']; ?><br>" +
-                " <a href = '#' onclick='DeleteVisible()'>Delete</a>"
+                "<form method='POST' action='{{ route('dataPasien.destroy', $r['id']) }}'>" +
+                "<input type='hidden' name='_token' value='{{ csrf_token() }}'> " +
+                "<input type='hidden' name='_method' value='delete'>" +
+                " <input type='submit' value='Delete' class='btn btn-success btn-sm delete' onclick='return confirm('Apakah anda yakin mau delete?')'> </form>"
             );
             map.openPopup(pop);
         });
